@@ -4,7 +4,7 @@ Proceso prMenuLeyesCirc
 	Definir volt, corriente, res, wattPotencia Como Real;
 	Definir res1Divisor, res2Divisor, vIn, iTotal, vSalida, iSalida, rEquiv, rTemporal Como Real;
 	Definir confirmarSalir, subSelecc, caracterActual,entradaA, entradaB Como Caracter;
-	Definir selecc, aux, auxResitencias, cantidadRes Como Entero;
+	Definir selecc, aux, auxResitencias, cantidadRes, punto Como Entero;
 	Definir opcSalir, esValido Como Logico;
 	
 	opcSalir <- Falso;
@@ -24,10 +24,10 @@ Proceso prMenuLeyesCirc
 			1:
 				Escribir "               CALCULO DE LA LEY DE OHM";
 				Escribir "  		Se calcula la ley: V = (R * I)";
-				Escribir "		a. C�lculo de V (Voltaje)";
-                Escribir "		b. C�lculo de R (Resistencia)";
-                Escribir "		c. C�lculo de I (Corriente)";
-                Escribir "		Selecciona una opci�n (a/b/c): ";
+				Escribir "		a. Cálculo de V (Voltaje)";
+                Escribir "		b. Cálculo de R (Resistencia)";
+                Escribir "		c. Cálculo de I (Corriente)";
+                Escribir "		Selecciona una opción (a/b/c): ";
                 Leer subSelecc;
                 subSelecc <- Minusculas(subSelecc);
                 //	Definir volt, corriente, res, wattPotencia Como Real;
@@ -37,94 +37,178 @@ Proceso prMenuLeyesCirc
 						Repetir
 							Escribir " - Ingrese el valor de Resistencia (R): ";
 							Leer entradaA;
-							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaA, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaA) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+									caracterActual <- Subcadena(entradaA, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaA) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								res <- ConvertirANumero(entradaA);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si res <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						res <- ConvertirANumero(entradaA);
 						
 						// Para Corriente
 						Repetir
 							Escribir " - Ingrese el valor de Corriente (I): ";
 							Leer entradaB;
-							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaB, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaB) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+									caracterActual <- Subcadena(entradaB, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaB) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								corriente <- ConvertirANumero(entradaB);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si corriente <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						corriente <- ConvertirANumero(entradaB);
 						Escribir "  -> Valores ingresados: ", " -> Resitencia: ", res, "  -> Corriente: ", corriente;
                         Escribir "  -> El Voltaje esta definido por: V = (R * I) -> "  corriente * res, " [V]";
-                    "b": //	Resistencia						
+						
+					"b": //	Resistencia						
 						// Para Voltaje
 						Repetir
 							Escribir " - Ingrese el valor de Voltaje (V): ";
 							Leer entradaA;
-							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaA, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaA) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+									caracterActual <- Subcadena(entradaA, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaA) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								volt <- ConvertirANumero(entradaA);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si volt <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						volt <- ConvertirANumero(entradaA);
 						
 						// Para Corriente
 						Repetir
 							Escribir " - Ingrese el valor de Corriente (I): ";
 							Leer entradaB;
-							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaB, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaB) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+									caracterActual <- Subcadena(entradaB, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaB) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								corriente <- ConvertirANumero(entradaB);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si corriente <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
 						
@@ -138,62 +222,102 @@ Proceso prMenuLeyesCirc
 						Repetir
 							Escribir " - Ingrese el valor de Voltaje (V): ";
 							Leer entradaA;
-							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaA, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaA) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+									caracterActual <- Subcadena(entradaA, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaA) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								volt <- ConvertirANumero(entradaA);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si volt <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						volt <- ConvertirANumero(entradaA);
 						
 						// Para Resitencia
 						Repetir
-							Escribir " - Ingrese el valor de Resistencia (R): ";
+							Escribir " - Ingrese el valor de Voltaje (V): ";
 							Leer entradaB;
-							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaB, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaB) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+									caracterActual <- Subcadena(entradaB, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaB) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								res <- ConvertirANumero(entradaB);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si res <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						res <- ConvertirANumero(entradaB);
 						
 						Escribir "  -> Valores ingresados: ", " -> Voltaje: ", volt, "  -> Resitencia: ", res;
 						Escribir "  -> La Corriente esta definida por: I = (V/R) -> ", volt / res, " [A]";
                     De Otro Modo:
-                        Escribir "Opci�n no v�lida, debe seleccionar una opcion de la Ley de Ohm; a, b o c";
+                        Escribir "Opción no válida, debe seleccionar una opcion de la Ley de Ohm; a, b o c";
                 FinSegun
 			2:
 				Escribir "               CALCULO DE LA LEY WATT";
 				Escribir "  		Se calcula la ley: P = (V * I)";
-				Escribir "		a. C�lculo de P (Potencia)";
-                Escribir "		b. C�lculo de V (Voltaje)";
-                Escribir "		c. C�lculo de I (Corriente)";
-                Escribir "		Selecciona una opci�n (a/b/c): ";
+				Escribir "		a. Cálculo de P (Potencia)";
+                Escribir "		b. Cálculo de V (Voltaje)";
+                Escribir "		c. Cálculo de I (Corriente)";
+                Escribir "		Selecciona una opción (a/b/c): ";
                 Leer subSelecc;
                 subSelecc <- Minusculas(subSelecc);
 				//	Definir volt, corriente, res, wattPotencia Como Real;
@@ -205,23 +329,44 @@ Proceso prMenuLeyesCirc
 							Leer entradaA;
 							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaA, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaA) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+									caracterActual <- Subcadena(entradaA, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaA) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								volt <- ConvertirANumero(entradaA);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si volt <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						volt <- ConvertirANumero(entradaA);
 						
 						// Para Corriente
 						Repetir
@@ -229,23 +374,44 @@ Proceso prMenuLeyesCirc
 							Leer entradaB;
 							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaB, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaB) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+									caracterActual <- Subcadena(entradaB, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaB) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								corriente <- ConvertirANumero(entradaB);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si corriente <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						corriente <- ConvertirANumero(entradaB);
 						
 						Escribir "  -> Valores ingresados: ", " -> Voltaje: ", volt, "  -> Corriente: ", corriente;
                         Escribir "  -> La Potencia esta definida por: P = (V * I) -> "  volt * corriente " [W]";
@@ -256,23 +422,44 @@ Proceso prMenuLeyesCirc
 							Leer entradaA;
 							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaA, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaA) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+									caracterActual <- Subcadena(entradaA, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaA) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								wattPotencia <- ConvertirANumero(entradaA);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si wattPotencia <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						wattPotencia <- ConvertirANumero(entradaA);
 						
 						// Para Corriente
 						Repetir
@@ -280,23 +467,44 @@ Proceso prMenuLeyesCirc
 							Leer entradaB;
 							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaB, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaB) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+									caracterActual <- Subcadena(entradaB, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaB) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								corriente <- ConvertirANumero(entradaB);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si corriente <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						corriente <- ConvertirANumero(entradaB);
 						
 						Escribir "  -> Valores ingresados: ", " -> Potencia: ", wattPotencia, "  -> Corriente: ", corriente;
 						Escribir "  -> El Voltaje esta definido por: V = (P/I) -> ", wattPotencia / corriente, " [V]";
@@ -307,23 +515,44 @@ Proceso prMenuLeyesCirc
 							Leer entradaA;
 							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaA, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaA) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+									caracterActual <- Subcadena(entradaA, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaA) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								wattPotencia <- ConvertirANumero(entradaA);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si wattPotencia <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						wattPotencia <- ConvertirANumero(entradaA);
 						
 						// Para Voltaje
 						Repetir
@@ -331,34 +560,55 @@ Proceso prMenuLeyesCirc
 							Leer entradaB;
 							// Escribir Longitud(entrada);
 							esValido <- Verdadero;
+							punto <- 0;
 							
-							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
-								// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-								caracterActual <- Subcadena(entradaB, aux, aux);
-								// Validar si el caracter NO es un numero entre '0' y '9'
-								Si caracterActual < "1" O caracterActual > "9" Entonces
-									esValido <- Falso;
+							// Validación 1: Verificar que la cadena no esté vacía
+							Si Longitud(entradaB) = 0 Entonces
+								esValido <- Falso;
+							SiNo
+								// Validación 2: Revisar cada carácter
+								Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+									caracterActual <- Subcadena(entradaB, aux, aux);
+									
+									Si caracterActual = "." Entonces
+										punto <- punto + 1;
+										// No puede haber más de un punto, ni ser el único carácter
+										Si punto > 1 O Longitud(entradaB) = 1 Entonces
+											esValido <- Falso;
+										FinSi
+									SiNo
+										// Validar si el carácter NO es un número entre '0' y '9'
+										Si caracterActual < "0" O caracterActual > "9" Entonces
+											esValido <- Falso;
+										FinSi
+									FinSi
+								FinPara
+							FinSi
+							
+							// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+							Si esValido Entonces
+								volt <- ConvertirANumero(entradaB);
+								// La resistencia en un circuito no puede ser 0 o negativa
+								Si volt <= 0 Entonces
+									esValido <- Falso; 
 								FinSi
-							FinPara
+							FinSi
 							
 							Si No esValido Entonces
-								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 							FinSi
 						Hasta Que esValido;
-						
-						// Convierto el caracter a numero para operar
-						volt <- ConvertirANumero(entradaB);
 						
 						Escribir "  -> Valores ingresados: ", " -> Potencia: ", wattPotencia, "  -> Voltaje: ", volt;
 						Escribir "  -> La Corriente esta definida por: I = (P/V) -> ", wattPotencia / volt, " [A]";
                     De Otro Modo:
-                        Escribir "Opci�n no v�lida, debe seleccionar una opcion de la Ley de Watt; a, b o c";
+                        Escribir "Opción no válida, debe seleccionar una opcion de la Ley de Watt; a, b o c";
                 FinSegun
 			3:
 				Escribir "               CALCULO DE DIVISORES (2 RESISTENCIAS)";
-				Escribir "		a. Divisor de Tensi�n";
+				Escribir "		a. Divisor de Tensión";
                 Escribir "		b. Divisor de Corriente";
-                Escribir "		Selecciona una opci�n: ";
+                Escribir "		Selecciona una opción: ";
                 Leer subSelecc;
                 subSelecc <- Minusculas(subSelecc);
                 //	Definir res1Divisor, res2Divisor, vIn, iTotal, vSalida, iSalida Como Real;
@@ -368,23 +618,44 @@ Proceso prMenuLeyesCirc
 					Leer entradaA;
 					// Escribir Longitud(entrada);
 					esValido <- Verdadero;
+					punto <- 0;
 					
-					Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
-						// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-						caracterActual <- Subcadena(entradaA, aux, aux);
-						// Validar si el caracter NO es un numero entre '0' y '9'
-						Si caracterActual < "1" O caracterActual > "9" Entonces
-							esValido <- Falso;
+					// Validación 1: Verificar que la cadena no esté vacía
+					Si Longitud(entradaA) = 0 Entonces
+						esValido <- Falso;
+					SiNo
+						// Validación 2: Revisar cada carácter
+						Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+							caracterActual <- Subcadena(entradaA, aux, aux);
+							
+							Si caracterActual = "." Entonces
+								punto <- punto + 1;
+								// No puede haber más de un punto, ni ser el único carácter
+								Si punto > 1 O Longitud(entradaA) = 1 Entonces
+									esValido <- Falso;
+								FinSi
+							SiNo
+								// Validar si el carácter NO es un número entre '0' y '9'
+								Si caracterActual < "0" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinSi
+						FinPara
+					FinSi
+					
+					// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+					Si esValido Entonces
+						res1Divisor <- ConvertirANumero(entradaA);
+						// La resistencia en un circuito no puede ser 0 o negativa
+						Si res1Divisor <= 0 Entonces
+							esValido <- Falso; 
 						FinSi
-					FinPara
+					FinSi
 					
 					Si No esValido Entonces
-						Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+						Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 					FinSi
 				Hasta Que esValido;
-				
-				// Convierto el caracter a numero para operar
-				res1Divisor <- ConvertirANumero(entradaA);
 				
 				// Para R2
 				Repetir
@@ -392,30 +663,51 @@ Proceso prMenuLeyesCirc
 					Leer entradaB;
 					// Escribir Longitud(entrada);
 					esValido <- Verdadero;
+					punto <- 0;
 					
-					Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
-						// 		         Subcadena(texto, posici�n_inicio, posici�n_fin)
-						caracterActual <- Subcadena(entradaB, aux, aux);
-						// Validar si el caracter NO es un numero entre '0' y '9'
-						Si caracterActual < "1" O caracterActual > "9" Entonces
-							esValido <- Falso;
+					// Validación 1: Verificar que la cadena no esté vacía
+					Si Longitud(entradaB) = 0 Entonces
+						esValido <- Falso;
+					SiNo
+						// Validación 2: Revisar cada carácter
+						Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+							caracterActual <- Subcadena(entradaB, aux, aux);
+							
+							Si caracterActual = "." Entonces
+								punto <- punto + 1;
+								// No puede haber más de un punto, ni ser el único carácter
+								Si punto > 1 O Longitud(entradaB) = 1 Entonces
+									esValido <- Falso;
+								FinSi
+							SiNo
+								// Validar si el carácter NO es un número entre '0' y '9'
+								Si caracterActual < "0" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinSi
+						FinPara
+					FinSi
+					
+					// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+					Si esValido Entonces
+						res2Divisor <- ConvertirANumero(entradaB);
+						// La resistencia en un circuito no puede ser 0 o negativa
+						Si res2Divisor <= 0 Entonces
+							esValido <- Falso; 
 						FinSi
-					FinPara
+					FinSi
 					
 					Si No esValido Entonces
-						Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+						Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
 					FinSi
 				Hasta Que esValido;
 				
-				// Convierto el caracter a numero para operar
-				res2Divisor <- ConvertirANumero(entradaA);
-                
                 Si (res1Divisor + res2Divisor = 0) Entonces
                     Escribir "  Error: La suma de resistencias es 0";
                 SiNo
                     Segun subSelecc Hacer
                         "a":
-							Escribir "  La formula de Divisor de Tensi�n para dos resitencias es: ";
+							Escribir "  La formula de Divisor de Tensión para dos resitencias es: ";
 							Escribir "  vSalida = [ vIn * ((R1)/(R1 + R2)) ]";
                             Escribir " - Ingrese Voltaje de entrada (vIn): ";
                             Leer vIn;
@@ -433,7 +725,7 @@ Proceso prMenuLeyesCirc
                             Escribir "  -> La corriente en R1 es: ", iSalida, " [A]";
                             Escribir "  -> La corriente en R2 es: ", iTotal - iSalida, " [A]";
                         De Otro Modo:
-							Escribir "Opci�n no v�lida, debe seleccionar una opcion de Calculo de Divisores; a o b";
+							Escribir "Opción no válida, debe seleccionar una opcion de Calculo de Divisores; a o b";
                     FinSegun
                 FinSi				
 			4: 	//	Definir selecc, auxResitencias, cantidadRes Como Entero;
@@ -441,11 +733,11 @@ Proceso prMenuLeyesCirc
 				Escribir "               CALCULO DE RESISTENCIAS (HASTA 5 RESISTENCIAS)";
 				Escribir "		a. Serie";
                 Escribir "		b. Paralelo";
-                Escribir "		Selecciona una opci�n (a/b): ";
+                Escribir "		Selecciona una opción (a/b): ";
                 Leer subSelecc;
                 subSelecc <- Minusculas(subSelecc);
 				
-				Escribir " �De cuantas resistencias se hara el calculo (el maximo es 5)? ";
+				Escribir " ¿De cuantas resistencias se hara el calculo (el maximo es 5)? ";
                 Leer cantidadRes;
 				
                 Si cantidadRes > 0 Y cantidadRes <= 5 Entonces
@@ -453,8 +745,51 @@ Proceso prMenuLeyesCirc
 					// SERIE
                     Si subSelecc = 'a' Entonces
                         Para auxResitencias <- 1 Hasta cantidadRes Hacer
-                            Escribir " - Ingrese valor R", auxResitencias, ": ";
-                            Leer rTemporal;
+							// Para R serie
+							Repetir
+								Escribir " - Ingrese valor R", auxResitencias, ": ";
+								Leer entradaA;
+								// Escribir Longitud(entrada);
+								esValido <- Verdadero;
+								punto <- 0;
+								
+								// Validación 1: Verificar que la cadena no esté vacía
+								Si Longitud(entradaA) = 0 Entonces
+									esValido <- Falso;
+								SiNo
+									// Validación 2: Revisar cada carácter
+									Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+										caracterActual <- Subcadena(entradaA, aux, aux);
+										
+										Si caracterActual = "." Entonces
+											punto <- punto + 1;
+											// No puede haber más de un punto, ni ser el único carácter
+											Si punto > 1 O Longitud(entradaA) = 1 Entonces
+												esValido <- Falso;
+											FinSi
+										SiNo
+											// Validar si el carácter NO es un número entre '0' y '9'
+											Si caracterActual < "0" O caracterActual > "9" Entonces
+												esValido <- Falso;
+											FinSi
+										FinSi
+									FinPara
+								FinSi
+								
+								// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+								Si esValido Entonces
+									rTemporal <- ConvertirANumero(entradaA);
+									// La resistencia en un circuito no puede ser 0 o negativa
+									Si rTemporal <= 0 Entonces
+										esValido <- Falso; 
+									FinSi
+								FinSi
+								
+								Si No esValido Entonces
+									Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								FinSi
+							Hasta Que esValido;
+							
                             rEquiv <- rEquiv + rTemporal;
                         FinPara
 						Escribir "  -> La formula de resistencia equivalente en Serie es: ";
@@ -464,8 +799,51 @@ Proceso prMenuLeyesCirc
 						// PARALELO
                         Si subSelecc = 'b' Entonces 
                             Para auxResitencias <- 1 Hasta cantidadRes Hacer
-                                Escribir " - Ingrese valor R", auxResitencias, ": ";
-                                Leer rTemporal;
+								// Para R paralelo
+								Repetir
+									Escribir " - Ingrese valor R", auxResitencias, ": ";
+									Leer entradaB;
+									// Escribir Longitud(entrada);
+									esValido <- Verdadero;
+									punto <- 0;
+									
+									// Validación 1: Verificar que la cadena no esté vacía
+									Si Longitud(entradaB) = 0 Entonces
+										esValido <- Falso;
+									SiNo
+										// Validación 2: Revisar cada carácter
+										Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+											caracterActual <- Subcadena(entradaB, aux, aux);
+											
+											Si caracterActual = "." Entonces
+												punto <- punto + 1;
+												// No puede haber más de un punto, ni ser el único carácter
+												Si punto > 1 O Longitud(entradaB) = 1 Entonces
+													esValido <- Falso;
+												FinSi
+											SiNo
+												// Validar si el carácter NO es un número entre '0' y '9'
+												Si caracterActual < "0" O caracterActual > "9" Entonces
+													esValido <- Falso;
+												FinSi
+											FinSi
+										FinPara
+									FinSi
+									
+									// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+									Si esValido Entonces
+										rTemporal <- ConvertirANumero(entradaB);
+										// La resistencia en un circuito no puede ser 0 o negativa
+										Si rTemporal <= 0 Entonces
+											esValido <- Falso; 
+										FinSi
+									FinSi
+									
+									Si No esValido Entonces
+										Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+								FinSi	
+							Hasta Que esValido;
+							
                                 Si rTemporal <> 0 Entonces
                                     rEquiv <- rEquiv + (1 / rTemporal);
                                 SiNo
@@ -479,7 +857,7 @@ Proceso prMenuLeyesCirc
                                 Escribir "  -> La resistencia equivalente en Paralelo es de: ", rEquiv, " [Ohms]";
                             FinSi
                         SiNo
-                            Escribir "  Opci�n no v�lida del submenu de Calculo de Resistencias";
+                            Escribir "  Opción no válida del submenu de Calculo de Resistencias";
                         FinSi
                     FinSi
                 SiNo
@@ -487,7 +865,7 @@ Proceso prMenuLeyesCirc
                 FinSi
 				
             5: // SALIR
-                Escribir "  �Seguro que quiere salir? (S/N): " Sin Saltar;
+                Escribir "  ¿Seguro que quiere salir? (S/N): " Sin Saltar;
                 Leer confirmarSalir;
                 confirmarSalir <- Mayusculas(confirmarSalir);
                 
@@ -498,8 +876,7 @@ Proceso prMenuLeyesCirc
                     Escribir "   -> No ha ingresado la confirmacion";
                 FinSi
             De Otro Modo:
-                Escribir "Opci�n no reconocida. Ingrese una opcion del menu";
+                Escribir "Opción no reconocida. Ingrese una opcion del menu";
 		Fin Segun
 	Hasta Que opcSalir
-	
 FinProceso
