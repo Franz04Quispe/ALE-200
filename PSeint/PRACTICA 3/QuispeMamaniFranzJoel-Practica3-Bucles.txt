@@ -1,0 +1,242 @@
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+ _____                          _            _    ___        _                
+|  ___| __ __ _ _ __  ____     | | ___   ___| |  / _ \ _   _(_)___ _ __   ___ 
+| |_ | '__/ _` | '_ \|_  /  _  | |/ _ \ / _ \ | | | | | | | | / __| '_ \ / _ \
+|  _|| | | (_| | | | |/ /  | |_| | (_) |  __/ | | |_| | |_| | \__ \ |_) |  __/
+|_|  |_|  \__,_|_| |_/___|  \___/ \___/ \___|_|  \__\_\\__,_|_|___/ .__/ \___|
+                                                                  |_|         
+ __  __                             _ 
+|  \/  | __ _ _ __ ___   __ _ _ __ (_)
+| |\/| |/ _` | '_ ` _ \ / _` | '_ \| |
+| |  | | (_| | | | | | | (_| | | | | |
+|_|  |_|\__,_|_| |_| |_|\__,_|_| |_|_|
+                                      
+
+    ___    __                 _ __                               
+   /   |  / /___ _____  _____(_) /_____ ___  ____  _____   __  __
+  / /| | / / __ `/ __ \/ ___/ / __/ __ `__ \/ __ \/ ___/  / / / /
+ / ___ |/ / /_/ / /_/ / /  / / /_/ / / / / / /_/ (__  )  / /_/ / 
+/_/  |_/_/\__, /\____/_/  /_/\__/_/ /_/ /_/\____/____/   \__, /  
+         /____/                                         /____/   
+    ______     __                  __                       
+   / ____/____/ /________  _______/ /___  ___________ ______
+  / __/ / ___/ __/ ___/ / / / ___/ __/ / / / ___/ __ `/ ___/
+ / /___(__  ) /_/ /  / /_/ / /__/ /_/ /_/ / /  / /_/ (__  ) 
+/_____/____/\__/_/   \__,_/\___/\__/\__,_/_/   \__,_/____/  
+
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                                            Practica 3: Bucles
+                                                                 Instituto Tecnológico Ayacucho - 2026
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 1 
+Proceso P01_sumMulteros
+	// Solicite un numero al usuario, si el numero supera a 10, multiplique los 10 primeros numeros
+	// sino sumelos
+	Definir num, resultado, aux Como Real;
+	Escribir "----------------------------------------------------------------------------------------------";
+	Escribir "|                                     MULTIPLICACION O SUMA                                  |";
+	Escribir "|  Si el numero supera a 10, se multiplican los 10 primeros numeros, caso contrario se suman |";
+	Escribir "----------------------------------------------------------------------------------------------";
+	
+	Escribir " - Ingrese un número:";
+	Leer num;
+	
+	Si num > 10 Entonces
+		resultado <- 1;
+		Para aux <- 1 Hasta num Con Paso 1 Hacer
+			resultado <- resultado * aux;
+		FinPara
+		Escribir "  -> El número es mayor a 10. La multiplicacion de los numeros es: ", resultado;
+		
+	Sino
+		resultado <- 0;
+		Escribir "   -> ! El número no es mayor a 10, no se multiplican los numeros !";
+		//Escribir "   ->  Los numeros de 1 al ", num, " son:";
+		Para aux <- 1 Hasta num Con Paso 1 Hacer
+			resultado <- resultado + aux;
+			Escribir aux;
+		FinPara
+		Escribir "   -> La suma de los numeros del 1 al ", num," es: ", resultado;
+	FinSi
+FinProceso
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 2 
+Proceso P02_multiplosDe3
+	// Realice un codigo que muestre los multiplos de 3 desde 1 hasta n
+	// (n el el numero ingresado por el usuario)
+	Definir n, mult, aux Como Entero;
+	
+	Escribir "--------------------------------------------";
+	Escribir "|    GENERADOR DE MULTIPLOS DE 3 HASTA N   |";
+	Escribir "--------------------------------------------";
+	Escribir " - Ingrese un numero (n): ";
+	Leer n;
+	aux <- 0;
+	mult <- 1;
+	
+	Para mult <- 3 Hasta n Con Paso 3 Hacer
+		aux <- aux + 1;
+		Escribir "   -> El [",aux,"º] factorial es: ", mult;
+	Fin Para
+FinProceso
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 3 
+Proceso P03_sumaPares
+	// Sumar todos los numeros pares desde n hasta m (n y m son ingresados por teclado)
+	Definir n, m, aux, suma Como Entero;
+	Escribir "--------------------------------------------";
+	Escribir "|              SUMA DE PARES               |";
+	Escribir "--------------------------------------------";
+	Escribir "  - Ingrese el primer numero:";
+	Leer n;
+	
+	Escribir "  - Ingrese el segundo numero:";
+	Leer m;
+	
+	Escribir "El inicio es: ",n,  " y el final es: ", m;
+	suma <- 0;
+	Para aux<-n Hasta m Con Paso 1 Hacer
+		Si aux mod 2 == 0 Entonces
+			suma <- suma + aux;
+			Escribir "  -> Los numeros pares son: ",aux;
+		FinSi
+	Fin Para
+	Escribir "     -> La suma de los numeros pares es: ",suma;
+FinProceso
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 4 
+Proceso P04_sumaFactoriales
+	// Realizar la suma de n numeros factoriales (n es un valor ingresado)
+	Definir n, i, j, factorial, sumaTotal Como Entero;
+	Escribir "---------------------------------------------------------------------";
+	Escribir "|                      SUMA DE FACTORIALES                          |";
+	Escribir "---------------------------------------------------------------------";
+	
+	Escribir "  -> Ingrese la cantidad de números (n) para sumar sus factoriales:";
+	Leer n;
+	
+	sumaTotal <- 0;
+	
+	Para i <- 1 Hasta n Hacer
+		factorial <- 1;
+		Para j <- 1 Hasta i Hacer
+			factorial <- factorial * j;
+		FinPara
+		Escribir "  -> El factorial de ", i, " es = ", factorial;
+		sumaTotal <- sumaTotal + factorial;
+	FinPara
+
+	Escribir "     -> La suma total de los ", n, " factoriales es: ", sumaTotal;
+FinProceso
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 5 
+Proceso P05_fibonacci
+	// Realizar la serie de Fibonacci: 0,1,1,2,3,5,8,13,21,34,...
+	// El usuario debe ingresar la cantidad de elementos a mostrar
+	Definir cantidad, a, b, c, aux Como Entero;
+	Escribir "-------------------------------------------------";
+	Escribir "|              SERIE DE FIBONACCI               |";
+	Escribir "-------------------------------------------------";
+	Escribir "  -> Ingrese la cantidad de términos a mostrar:";
+	Leer cantidad;
+	a <- 0;
+	b <- 1;
+	Escribir "  -> La serie de Fibonacci con ", cantidad, " terminos es:";
+	
+	Para aux <- 1 Hasta cantidad Con Paso 1 Hacer
+		Escribir a, ", ", Sin Saltar;
+		c <- a + b;
+		a <- b;
+		b <- c;
+	FinPara
+FinProceso
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 6 
+Proceso P06_imprSumaPares
+	// Hacer un programa que imprima la suma de todos los numeros pares que hay desde
+	// 1 hasta n, y diga cuantos numeros hay (n es ingresado por teclado)
+	Definir n, m, aux, suma, auxb Como Entero;
+	Escribir "--------------------------------------------------";
+	Escribir "|   IMPRIMIR LA SUMA DE LOS NUMEROS DEL 1 A N    |";
+	Escribir "--------------------------------------------------";
+	m <- 1;
+	auxb <- 0;
+	Escribir "  - Ingrese el fin (n):";
+	Leer n;
+	
+	Escribir "  -> El inicio es: ",m,  " y el final es: ", n;
+	suma <- 0;
+	Para aux <- 1 Hasta n Con Paso 1 Hacer
+		Si aux mod 2 == 0 Entonces
+			suma <- suma + aux;
+			Escribir "     -> Los numeros pares son: ",aux;
+			auxb <- auxb +1;
+		FinSi
+	Fin Para
+	Escribir "          -> La cantidad de numeros pares son: ",auxb;
+	Escribir "          -> La suma de los numeros pares es = ",suma;
+FinProceso
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 7 
+Proceso P07_mostrarRangoNumeros
+	// Hacer un programa que pida dos numeros y muestre todos los numeros
+	// hay van desde el primero al segundo. Se debe controlar que los valores son correctos
+	Definir num1, num2, aux Como Entero;
+	Escribir "------------------------------------------------------------------";
+	Escribir "|              MOSTRAR EL RANGO DE DOS NUMEROS                   |";
+	Escribir "------------------------------------------------------------------";
+	
+	Escribir "  -> Ingrese el primer numero: ";
+	Leer num1;
+	Escribir "  -> Ingrese el número final: ";
+	Leer num2;
+	
+	Si num1 > num2 Entonces
+		Escribir "  -> De forma decreciente: ";
+		Escribir "  -> Los numeros son: ";
+		Para aux <- num1 Hasta num2 Con Paso -1 Hacer
+			Escribir aux;
+		FinPara
+	FinSi
+	
+	Si num1 < num2 Entonces
+		Escribir "  -> Los numeros son: ";
+		Para aux <- num1 Hasta num2 Con Paso 1 Hacer
+			Escribir aux;
+		FinPara
+	FinSi
+FinProceso
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 8 
+Proceso P08_menu
+	// Hacer un programa que haga un menu del tipo "desea salir (S/N)"
+	// y el programa no termine hasta que el usuario teclee "S" o "s"
+	Definir opcionSalir Como Caracter;
+	Repetir
+		Escribir "--------------------------------------------";
+		Escribir "|               MENU I.T.A.                |";
+		Escribir "--------------------------------------------";
+		Escribir "  ¿ Desea salir (S/N)?";
+		Leer opcionSalir;
+		opcionSalir <- Mayusculas(opcionSalir);
+	Mientras Que opcionSalir <> "S"
+	Escribir "   ->  Ha salido del programa.";
+FinProceso
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 9 
+Proceso P09_sumaCuadrados
+	// Hacer un programa que calcule la suma de los cuadrados de los
+	// 100 primeros numeros
+	Definir aux, suma, cantidad Como Entero;
+	Escribir "---------------------------------------------------------------------";
+	Escribir "|        SUMA DE LOS CUADRADOS DE LOS 100 PRIMEROS NUMEROS          |";
+	Escribir "---------------------------------------------------------------------";
+    suma <- 0;
+    cantidad <- 100;
+	//	Escribir "  -> Ingrese la cantidad de cuadrados a sumar";
+	//	Leer cantidad;
+    Para aux <- 1 Hasta cantidad Con Paso 1 Hacer
+        suma <- suma + (aux * aux);
+    FinPara
+    Escribir "  -> La suma de los cuadrados de los 100 primeros números es: ", suma;
+FinProceso
