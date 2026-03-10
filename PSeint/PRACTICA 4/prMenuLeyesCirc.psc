@@ -3,21 +3,21 @@ Proceso prMenuLeyesCirc
 	// Autor: Franz Joel Quispe Mamani
 	Definir volt, corriente, res, wattPotencia Como Real;
 	Definir res1Divisor, res2Divisor, vIn, iTotal, vSalida, iSalida, rEquiv, rTemporal Como Real;
-	Definir confirmarSalir, subSelecc Como Caracter;
-	Definir selecc, auxResitencias, cantidadRes Como Entero;
-	Definir opcSalir Como Logico;
-
+	Definir confirmarSalir, subSelecc, caracterActual,entradaA, entradaB Como Caracter;
+	Definir selecc, aux, auxResitencias, cantidadRes Como Entero;
+	Definir opcSalir, esValido Como Logico;
+	
 	opcSalir <- Falso;
 	
 	Repetir
 		Escribir "------------------------------------------------------";
 		Escribir "           MENU DE LEYES CIRCUITALES I.T.A.";
 		Escribir "------------------------------------------------------";
-		Escribir "1. LEY DE OHM";
-		Escribir "2. LEY DE WATT";
-		Escribir "3. LEY DE DIVISORES (SOLO 2 RES)";
-		Escribir "4. RESISTENCIAS (HASTA 5 RES)";
-		Escribir "5. SALIR";
+		Escribir "	1. LEY DE OHM";
+		Escribir "	2. LEY DE WATT";
+		Escribir "	3. LEY DE DIVISORES (SOLO 2 RESISTENCIAS)";
+		Escribir "	4. RESISTENCIAS (HASTA 5 RESISTENCIAS)";
+		Escribir "	5. SALIR";
 		Leer selecc;
 		
 		Segun selecc Hacer
@@ -30,34 +30,160 @@ Proceso prMenuLeyesCirc
                 Escribir "		Selecciona una opción (a/b/c): ";
                 Leer subSelecc;
                 subSelecc <- Minusculas(subSelecc);
-                
+                //	Definir volt, corriente, res, wattPotencia Como Real;
                 Segun subSelecc Hacer
-                    "a": //	Definir volt, corriente, res, wattPotencia Como Real;
-						Escribir " - Ingrese el valor de Resistencia (R): ";
-                        Leer res;
-                        Escribir " - Ingrese el valor de Corriente (I): ";
-                        Leer corriente;
+                    "a": //	Voltaje
+						// Para Resitencia
+						Repetir
+							Escribir " - Ingrese el valor de Resistencia (R): ";
+							Leer entradaA;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaA, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						res <- ConvertirANumero(entradaA);
+						
+						// Para Corriente
+						Repetir
+							Escribir " - Ingrese el valor de Corriente (I): ";
+							Leer entradaB;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaB, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						corriente <- ConvertirANumero(entradaB);
+						Escribir "  -> Valores ingresados: ", " -> Resitencia: ", res, "  -> Corriente: ", corriente;
                         Escribir "  -> El Voltaje esta definido por: V = (R * I) -> "  corriente * res, " [V]";
-                    "b":
-                        Escribir " - Ingrese el valor de Voltaje (V): ";
-                        Leer volt;
-                        Escribir " - Ingrese el valor de Corriente (I): ";
-                        Leer corriente;
-                        Si corriente <> 0 Entonces
-                            Escribir "  -> La Resistencia esta definida por: R = (V/I) -> ", volt / corriente, " [Ohm]";
-                        SiNo
-                            Escribir " Error: Ha ingresado una corriente de 0, debe ser diferente a cero";
-                        FinSi
+                    "b": //	Resistencia						
+						// Para Voltaje
+						Repetir
+							Escribir " - Ingrese el valor de Voltaje (V): ";
+							Leer entradaA;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaA, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						volt <- ConvertirANumero(entradaA);
+						
+						// Para Corriente
+						Repetir
+							Escribir " - Ingrese el valor de Corriente (I): ";
+							Leer entradaB;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaB, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						corriente <- ConvertirANumero(entradaB);
+						
+						Escribir "  -> Valores ingresados: ", " -> Voltaje: ", volt, "  -> Corriente: ", corriente;
+						Escribir "  -> La Resistencia esta definida por: R = (V/I) -> ", volt / corriente, " [Ohm]";
                     "c":
-                        Escribir " - Ingrese el valor de Voltaje (V): ";
-                        Leer volt;
-                        Escribir " - Ingrese el valor de Resistencia (R): ";
-                        Leer res;
-                        Si res <> 0 Entonces
-                            Escribir "  -> La Corriente esta definida por: I = (V/R) -> ", volt / res, " [A]";
-                        SiNo
-                            Escribir " Error: Ha ingresado una resistencia de 0, debe ser diferente a cero";
-                        FinSi
+						// Para Voltaje
+						Repetir
+							Escribir " - Ingrese el valor de Voltaje (V): ";
+							Leer entradaA;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaA, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						volt <- ConvertirANumero(entradaA);
+						
+						// Para Resitencia
+						Repetir
+							Escribir " - Ingrese el valor de Resistencia (R): ";
+							Leer entradaB;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaB, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						res <- ConvertirANumero(entradaB);
+						
+						Escribir "  -> Valores ingresados: ", " -> Voltaje: ", volt, "  -> Resitencia: ", res;
+						Escribir "  -> La Corriente esta definida por: I = (V/R) -> ", volt / res, " [A]";
                     De Otro Modo:
                         Escribir "Opción no válida, debe seleccionar una opcion de la Ley de Ohm; a, b o c";
                 FinSegun
@@ -70,34 +196,161 @@ Proceso prMenuLeyesCirc
                 Escribir "		Selecciona una opción (a/b/c): ";
                 Leer subSelecc;
                 subSelecc <- Minusculas(subSelecc);
-				
+				//	Definir volt, corriente, res, wattPotencia Como Real;
 				Segun subSelecc Hacer
-                    "a": //	Definir volt, corriente, res, wattPotencia Como Real;
-						Escribir " - Ingrese el valor de Voltaje (V): ";
-                        Leer volt;
-                        Escribir " - Ingrese el valor de Corriente (I): ";
-                        Leer corriente;
+                    "a": //	Potencia
+						// Para Voltaje
+						Repetir
+							Escribir " - Ingrese el valor de Voltaje (V): ";
+							Leer entradaA;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaA, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						volt <- ConvertirANumero(entradaA);
+						
+						// Para Corriente
+						Repetir
+							Escribir " - Ingrese el valor de Corriente (I): ";
+							Leer entradaB;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaB, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						corriente <- ConvertirANumero(entradaB);
+						
+						Escribir "  -> Valores ingresados: ", " -> Voltaje: ", volt, "  -> Corriente: ", corriente;
                         Escribir "  -> La Potencia esta definida por: P = (V * I) -> "  volt * corriente " [W]";
-                    "b":
-						Escribir " - Ingrese el valor de Potencia (W): ";
-                        Leer wattPotencia;
-                        Escribir " - Ingrese el valor de Corriente (I): ";
-                        Leer corriente;
-                        Si corriente <> 0 Entonces
-                            Escribir "  -> El Voltaje esta definido por: V = (P/I) -> ", wattPotencia / corriente, " [V]";
-                        SiNo
-                            Escribir " Error: Ha ingresado una corriente de 0, debe ser diferente a cero";
-                        FinSi
-                    "c":
-						Escribir " - Ingrese el valor de Potencia (W): ";
-                        Leer wattPotencia;
-						Escribir " - Ingrese el valor de Voltaje (V): ";
-                        Leer volt;
-                        Si volt <> 0 Entonces
-                            Escribir "  -> La Corriente esta definida por: I = (P/V) -> ", wattPotencia / volt, " [A]";
-                        SiNo
-                            Escribir " Error: Ha ingresado un voltaje de 0, debe ser diferente a cero";
-                        FinSi
+                    "b": // Voltaje
+						// Para Potencia
+						Repetir
+							Escribir " - Ingrese el valor de Potencia (W): ";
+							Leer entradaA;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaA, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						wattPotencia <- ConvertirANumero(entradaA);
+						
+						// Para Corriente
+						Repetir
+							Escribir " - Ingrese el valor de Corriente (I): ";
+							Leer entradaB;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaB, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						corriente <- ConvertirANumero(entradaB);
+						
+						Escribir "  -> Valores ingresados: ", " -> Potencia: ", wattPotencia, "  -> Corriente: ", corriente;
+						Escribir "  -> El Voltaje esta definido por: V = (P/I) -> ", wattPotencia / corriente, " [V]";
+                    "c": //	Corriente
+						// Para Potencia
+						Repetir
+							Escribir " - Ingrese el valor de Potencia (W): ";
+							Leer entradaA;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaA, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						wattPotencia <- ConvertirANumero(entradaA);
+						
+						// Para Voltaje
+						Repetir
+							Escribir " - Ingrese el valor de Voltaje (V): ";
+							Leer entradaB;
+							// Escribir Longitud(entrada);
+							esValido <- Verdadero;
+							
+							Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+								// 		         Subcadena(texto, posición_inicio, posición_fin)
+								caracterActual <- Subcadena(entradaB, aux, aux);
+								// Validar si el caracter NO es un numero entre '0' y '9'
+								Si caracterActual < "1" O caracterActual > "9" Entonces
+									esValido <- Falso;
+								FinSi
+							FinPara
+							
+							Si No esValido Entonces
+								Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+							FinSi
+						Hasta Que esValido;
+						
+						// Convierto el caracter a numero para operar
+						volt <- ConvertirANumero(entradaB);
+						
+						Escribir "  -> Valores ingresados: ", " -> Potencia: ", wattPotencia, "  -> Voltaje: ", volt;
+						Escribir "  -> La Corriente esta definida por: I = (P/V) -> ", wattPotencia / volt, " [A]";
                     De Otro Modo:
                         Escribir "Opción no válida, debe seleccionar una opcion de la Ley de Watt; a, b o c";
                 FinSegun
@@ -109,10 +362,53 @@ Proceso prMenuLeyesCirc
                 Leer subSelecc;
                 subSelecc <- Minusculas(subSelecc);
                 //	Definir res1Divisor, res2Divisor, vIn, iTotal, vSalida, iSalida Como Real;
-                Escribir " - Ingrese valor de R1: ";
-                Leer res1Divisor;
-                Escribir " - Ingrese valor de R2: ";
-                Leer res2Divisor;
+				// Para R1
+				Repetir
+					Escribir " - Ingrese valor de R1: ";
+					Leer entradaA;
+					// Escribir Longitud(entrada);
+					esValido <- Verdadero;
+					
+					Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+						// 		         Subcadena(texto, posición_inicio, posición_fin)
+						caracterActual <- Subcadena(entradaA, aux, aux);
+						// Validar si el caracter NO es un numero entre '0' y '9'
+						Si caracterActual < "1" O caracterActual > "9" Entonces
+							esValido <- Falso;
+						FinSi
+					FinPara
+					
+					Si No esValido Entonces
+						Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+					FinSi
+				Hasta Que esValido;
+				
+				// Convierto el caracter a numero para operar
+				res1Divisor <- ConvertirANumero(entradaA);
+				
+				// Para R2
+				Repetir
+					Escribir " - Ingrese valor de R2: ";
+					Leer entradaB;
+					// Escribir Longitud(entrada);
+					esValido <- Verdadero;
+					
+					Para aux <- 0 Hasta Longitud(entradaB) - 1 Hacer
+						// 		         Subcadena(texto, posición_inicio, posición_fin)
+						caracterActual <- Subcadena(entradaB, aux, aux);
+						// Validar si el caracter NO es un numero entre '0' y '9'
+						Si caracterActual < "1" O caracterActual > "9" Entonces
+							esValido <- Falso;
+						FinSi
+					FinPara
+					
+					Si No esValido Entonces
+						Escribir "    --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+					FinSi
+				Hasta Que esValido;
+				
+				// Convierto el caracter a numero para operar
+				res2Divisor <- ConvertirANumero(entradaA);
                 
                 Si (res1Divisor + res2Divisor = 0) Entonces
                     Escribir "  Error: La suma de resistencias es 0";
