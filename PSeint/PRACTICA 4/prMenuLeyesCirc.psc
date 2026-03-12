@@ -737,67 +737,70 @@ Proceso prMenuLeyesCirc
                 Leer subSelecc;
                 subSelecc <- Minusculas(subSelecc);
 				
-				Escribir " ¿De cuantas resistencias se hara el calculo (el maximo es 5)? ";
-                Leer cantidadRes;
-				
-                Si cantidadRes > 0 Y cantidadRes <= 5 Entonces
-                    rEquiv <- 0;
-					// SERIE
-                    Si subSelecc = 'a' Entonces
-                        Para auxResitencias <- 1 Hasta cantidadRes Hacer
-							// Para R serie
-							Repetir
-								Escribir " - Ingrese valor R", auxResitencias, ": ";
-								Leer entradaA;
-								// Escribir Longitud(entrada);
-								esValido <- Verdadero;
-								punto <- 0;
-								
-								// Validación 1: Verificar que la cadena no esté vacía
-								Si Longitud(entradaA) = 0 Entonces
-									esValido <- Falso;
-								SiNo
-									// Validación 2: Revisar cada carácter
-									Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
-										caracterActual <- Subcadena(entradaA, aux, aux);
-										
-										Si caracterActual = "." Entonces
-											punto <- punto + 1;
-											// No puede haber más de un punto, ni ser el único carácter
-											Si punto > 1 O Longitud(entradaA) = 1 Entonces
-												esValido <- Falso;
+				Segun subSelecc Hacer
+					"a":
+						Escribir " ¿De cuantas resistencias se hara el calculo (el maximo es 5)? ";
+						Leer cantidadRes;
+						Si cantidadRes > 0 Y cantidadRes <= 5 Entonces
+							rEquiv <- 0;
+							Para auxResitencias <- 1 Hasta cantidadRes Hacer
+								// Para R serie
+								Repetir
+									Escribir " - Ingrese valor R", auxResitencias, ": ";
+									Leer entradaA;
+									// Escribir Longitud(entrada);
+									esValido <- Verdadero;
+									punto <- 0;
+									
+									// Validación 1: Verificar que la cadena no esté vacía
+									Si Longitud(entradaA) = 0 Entonces
+										esValido <- Falso;
+									SiNo
+										// Validación 2: Revisar cada carácter
+										Para aux <- 0 Hasta Longitud(entradaA) - 1 Hacer
+											caracterActual <- Subcadena(entradaA, aux, aux);
+											
+											Si caracterActual = "." Entonces
+												punto <- punto + 1;
+												// No puede haber más de un punto, ni ser el único carácter
+												Si punto > 1 O Longitud(entradaA) = 1 Entonces
+													esValido <- Falso;
+												FinSi
+											SiNo
+												// Validar si el carácter NO es un número entre '0' y '9'
+												Si caracterActual < "0" O caracterActual > "9" Entonces
+													esValido <- Falso;
+												FinSi
 											FinSi
-										SiNo
-											// Validar si el carácter NO es un número entre '0' y '9'
-											Si caracterActual < "0" O caracterActual > "9" Entonces
-												esValido <- Falso;
-											FinSi
-										FinSi
-									FinPara
-								FinSi
-								
-								// Validación 3: Si la estructura de texto es válida, validar el valor matemático
-								Si esValido Entonces
-									rTemporal <- ConvertirANumero(entradaA);
-									// La resistencia en un circuito no puede ser 0 o negativa
-									Si rTemporal <= 0 Entonces
-										esValido <- Falso; 
+										FinPara
 									FinSi
-								FinSi
+									
+									// Validación 3: Si la estructura de texto es válida, validar el valor matemático
+									Si esValido Entonces
+										rTemporal <- ConvertirANumero(entradaA);
+										// La resistencia en un circuito no puede ser 0 o negativa
+										Si rTemporal <= 0 Entonces
+											esValido <- Falso; 
+										FinSi
+									FinSi
+									
+									Si No esValido Entonces
+										Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
+									FinSi
+								Hasta Que esValido;
 								
-								Si No esValido Entonces
-									Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
-								FinSi
-							Hasta Que esValido;
-							
-                            rEquiv <- rEquiv + rTemporal;
-                        FinPara
-						Escribir "  -> La formula de resistencia equivalente en Serie es: ";
-						Escribir "  ->  Req = (R1 + R2 + R3 + ... Rn)";
-                        Escribir "  -> La resistencia equivalente en Serie es de: ", rEquiv, " [Ohms]";
-                    SiNo 
-						// PARALELO
-                        Si subSelecc = 'b' Entonces 
+								rEquiv <- rEquiv + rTemporal;
+							FinPara
+							Escribir "  -> La formula de resistencia equivalente en Serie es: ";
+							Escribir "  ->  Req = (R1 + R2 + R3 + ... Rn)";
+							Escribir "  -> La resistencia equivalente en Serie es de: ", rEquiv, " [Ohms]";
+						FinSi
+						
+					"b":
+						Escribir " ¿De cuantas resistencias se hara el calculo (el maximo es 5)? ";
+						Leer cantidadRes;
+						Si cantidadRes > 0 Y cantidadRes <= 5 Entonces
+							rEquiv <- 0;
                             Para auxResitencias <- 1 Hasta cantidadRes Hacer
 								// Para R paralelo
 								Repetir
@@ -841,29 +844,28 @@ Proceso prMenuLeyesCirc
 									
 									Si No esValido Entonces
 										Escribir "   --- ERROR: Se ingresaron caracteres no numericos, espacios, numeros negativos o el cero. Intente de nuevo.";
-								FinSi	
-							Hasta Que esValido;
-							
-                                Si rTemporal <> 0 Entonces
-                                    rEquiv <- rEquiv + (1 / rTemporal);
-                                SiNo
-                                    Escribir " Error: En Paralelo la resistencia no debe ser cero";
-                                FinSi
-                            FinPara
-                            Si rEquiv <> 0 Entonces
-                                rEquiv <- 1 / rEquiv;
-								Escribir "  -> La formula de resistencia equivalente en Paralelo es: ";
-								Escribir "  ->  Req = (1/R1 + 1/R2 + 1/R3 + ... 1/Rn)";
-                                Escribir "  -> La resistencia equivalente en Paralelo es de: ", rEquiv, " [Ohms]";
-                            FinSi
-                        SiNo
-                            Escribir "  Opción no válida del submenu de Calculo de Resistencias";
-                        FinSi
-                    FinSi
-                SiNo
-                    Escribir "Error: La cantidad de resistencias debe ser entre 1 y 5";
-                FinSi
-				
+									FinSi	
+								Hasta Que esValido;
+								
+								rEquiv <- rEquiv + rTemporal;
+								Si rTemporal <> 0 Entonces
+									rEquiv <- rEquiv + (1 / rTemporal);
+								SiNo
+									Escribir " Error: En Paralelo la resistencia no debe ser cero";
+								FinSi
+								
+								Si rEquiv <> 0 Entonces
+									rEquiv <- 1 / rEquiv;
+									Escribir "  -> La formula de resistencia equivalente en Paralelo es: ";
+									Escribir "  ->  Req = (1/R1 + 1/R2 + 1/R3 + ... 1/Rn)";
+									Escribir "  -> La resistencia equivalente en Paralelo es de: ", rEquiv, " [Ohms]";
+								FinSi
+							FinPara
+						FinSi
+					De Otro Modo:
+						Escribir "  Opción no válida del submenu de Calculo de Resistencias";
+				FinSegun
+			
             5: // SALIR
                 Escribir "  ¿Seguro que quiere salir? (S/N): " Sin Saltar;
                 Leer confirmarSalir;
@@ -876,7 +878,7 @@ Proceso prMenuLeyesCirc
                     Escribir "   -> No ha ingresado la confirmacion";
                 FinSi
             De Otro Modo:
-                Escribir "Opción no reconocida. Ingrese una opcion del menu";
+                Escribir "Opción no reconocida. Ingrese una opcion del menu";		
 		Fin Segun
 	Hasta Que opcSalir
 FinProceso
