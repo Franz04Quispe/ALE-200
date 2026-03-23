@@ -28,17 +28,17 @@ int main()
     printf("\t\t\t-> Precio Umbral_Promo: %i\n",umbralPromo);
     printf("\t\t\t-> Precio Porcentaje_Descuento: %.2f\n",prtjeDscto);
 
-    // Inicio del programa
+    // Inicio a codificar
     int ctdSmarthPhone, ctdLaptop, ctdTablet;
     // Solicitud de cantidades vendidas de cada producto
     printf("*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*\n");
-    printf("\t -Ingrese la cantidad vendida de Smarth_Phones: ");
+    printf("\t\t - Ingrese la cantidad vendida de Smarth_Phones: ");
     scanf("%i", &ctdSmarthPhone);
 
-    printf("\t -Ingrese la cantidad vendida de Laptops: ");
+    printf("\t\t - Ingrese la cantidad vendida de Laptops: ");
     scanf("%i", &ctdLaptop);
 
-    printf("\t -Ingrese la cantidad vendida de Tablets: ");
+    printf("\t\t - Ingrese la cantidad vendida de Tablets: ");
     scanf("%i", &ctdTablet);
     // Multipliacion del precio y la cantidad de cada producto
     subTotSmFs = (prSmarthPhone * ctdSmarthPhone);
@@ -64,22 +64,26 @@ int main()
     printf("\t -El descuento aplicado es de: %.2f [Bs.]\n",descuento);
     printf("\t -El pago total es de: %.2f [Bs.]\n",pagoTotal);
     */
-
+    printf("\n");
     printf("*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*\n");
-    //Factura formateada
-    printf("\t\t\t\t  FACTURA TECHCONTROL  \n");
-    printf("\t\t- Smarth_Phones: %i x  %i [Bs.] =  %.2f [Bs.]\n", ctdSmarthPhone, prSmarthPhone, subTotSmFs);
-    printf("\t\t- Laptops: %i x  %i [Bs.] = %.2f [Bs.]\n", ctdLaptop, prLaptop, subTotLps);
-    printf("\t\t- Tablets: %i x  %i [Bs.] = %.2f [Bs.]\n", ctdTablet, prTablet, subTotTbls);
-    printf("\t\t------------------------------------\n");   
-    printf("\t\t- Subtotal de productos: %.2f [Bs.]\n", subTotalSinIVA);
-    printf("\t\t- IVA (13%%): %.2f [Bs.]\n", calculoConIVA);
-    printf("\t\t- Total con IVA: %.2f [Bs.]\n", totalConIVA);
-    printf("\t\t- Descuento aplicado: %.2f [Bs.]\n", descuento);  
-    printf("\t\t------------------------------------\n");
-    printf("\t\t- TOTAL FINAL A PAGAR: %.2f [Bs.]\n", pagoTotal);
-    printf("\t\t====================================\n");   
-
+    printf("\n");
+    printf("\t     %c===================================================================%c\n",201,187);
+    printf("\t     %c\t\t             FACTURA TECHCONTROL  \t\t         %c\n",186,186);
+    printf("\t     %c===================================================================%c\n",204,185);
+    printf("\t     %c\t\tPRODUCTO %c CANTIDAD %c PRECIO   %c   SUBTOTAL %c\n",186,124,124,124,186);
+    printf("\t     %c\t-> Smarth_Phones:   %i x  %i [Bs.] = %.2f [Bs.]\n",186, ctdSmarthPhone, prSmarthPhone, subTotSmFs);
+    printf("\t     %c\t-> \t Laptops:   %i x  %i [Bs.] = %.2f [Bs.]\n",186, ctdLaptop, prLaptop, subTotLps);
+    printf("\t     %c\t-> \t Tablets:   %i x  %i [Bs.]  = %.2f [Bs.]\n",186, ctdTablet, prTablet, subTotTbls);
+    printf("\t     %c\t---------------------------------------------------------------\n", 186);   
+    printf("\t     %c\t-> \tSubtotal de productos: %.2f [Bs.]\n",186, subTotalSinIVA);
+    printf("\t     %c\t-> \t\t    IVA (13%%): %.2f [Bs.]\n",186, calculoConIVA);
+    printf("\t     %c\t-> \t        Total con IVA: %.2f [Bs.]\n",186, totalConIVA);
+    printf("\t     %c\t->         Descuento aplicado: %.2f [Bs.]\n",186, descuento);  
+    printf("\t     %c\t--------------------------------------------------------------- \n", 186); 
+    printf("\t     %c\t--> \t  TOTAL FINAL A PAGAR: %.2f [Bs.]\n",186, pagoTotal);
+    printf("\t     %c===================================================================\n",200);
+    printf("\n");
+    printf("*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*\n");
 
     getchar();
     return 0;
