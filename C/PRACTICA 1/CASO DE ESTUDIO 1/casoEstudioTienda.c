@@ -70,10 +70,10 @@ int main()
     printf("\t     %c===================================================================%c\n",201,187);
     printf("\t     %c\t\t             FACTURA TECHCONTROL  \t\t         %c\n",186,186);
     printf("\t     %c===================================================================%c\n",204,185);
-    printf("\t     %c\t\tPRODUCTO %c CANTIDAD %c PRECIO   %c   SUBTOTAL %c\n",186,124,124,124,186);
-    printf("\t     %c\t-> Smarth_Phones:   %i x  %i [Bs.] = %.2f [Bs.]\n",186, ctdSmarthPhone, prSmarthPhone, subTotSmFs);
-    printf("\t     %c\t-> \t Laptops:   %i x  %i [Bs.] = %.2f [Bs.]\n",186, ctdLaptop, prLaptop, subTotLps);
-    printf("\t     %c\t-> \t Tablets:   %i x  %i [Bs.]  = %.2f [Bs.]\n",186, ctdTablet, prTablet, subTotTbls);
+    printf("\t     %c\t\tPRODUCTO %c  CANTIDAD %c    PRECIO    %c    SUBTOTAL  \t %c\n",186,124,124,124,186);
+    printf("\t     %c\t->  Smarth_Phones:     %i    x   %i [Bs.] = %.2f [Bs.]\n",186, ctdSmarthPhone, prSmarthPhone, subTotSmFs);
+    printf("\t     %c\t-> \t  Laptops:     %i    x   %i [Bs.] = %.2f [Bs.]\n",186, ctdLaptop, prLaptop, subTotLps);
+    printf("\t     %c\t-> \t  Tablets:     %i    x   %i [Bs.]  = %.2f [Bs.]\n",186, ctdTablet, prTablet, subTotTbls);
     printf("\t     %c\t---------------------------------------------------------------\n", 186);   
     printf("\t     %c\t-> \tSubtotal de productos: %.2f [Bs.]\n",186, subTotalSinIVA);
     printf("\t     %c\t-> \t\t    IVA (13%%): %.2f [Bs.]\n",186, calculoConIVA);
@@ -84,7 +84,7 @@ int main()
     printf("\t     %c===================================================================\n",200);
     printf("\n");
     printf("*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*\n");
-
+    printf("\t ** Franz Quispe ...");
     getchar();
     return 0;
 }
